@@ -25,7 +25,7 @@ app.use(
 
 io.on("connection", (socket) => {
   console.log(`User connected with id: ${socket.id}`);
-  
+
   // Send welcome message to the newly connected user
   socket.emit("welcome", "Welcome to the chat server!");
 
@@ -35,12 +35,7 @@ io.on("connection", (socket) => {
 
     // Send message back to sender (echo)
     socket.emit("transfer-chat", msg);
-
-    // If you want to broadcast to ALL users including sender:
-    // io.emit("transfer-chat", msg);
-    
-    // If you want to broadcast to ALL users EXCEPT sender:
-    // socket.broadcast.emit("transfer-chat", msg);
+  
   });
 
   // Handle disconnection

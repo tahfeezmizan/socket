@@ -54,13 +54,11 @@ function App() {
               <h1 className="text-center text-gray-600">Received: {chat}</h1>
             </div>
 
-            <div className="max-h-32 overflow-y-auto justify-end">
-              <div className="text-sm text-gray-500 mb-1">Your messages:</div>
-
+            <div className="overflow-y-auto justify-end">
               {messages.map((message, index) => (
                 <div
                   key={index}
-                  className="bg-blue-100 text-blue-800 rounded-lg px-3 py-1 mb-1 max-w-fit text-sm"
+                  className="bg-blue-100 text-blue-800 rounded-lg px-3 py-1 mb-1 max-w-fit text-sm justify-end"
                 >
                   {" "}
                   {message}
