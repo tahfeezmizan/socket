@@ -5,6 +5,8 @@ import React from "react";
 function App() {
   const [input, setInput] = useState("");
   const [chat, setChat] = useState("");
+  const [socketId, setSocketId] = useState("");
+  const [room, setRoom] = useState("");
   const [messages, setMessages] = useState([]);
   const socketRef = useRef(null);
 
@@ -13,8 +15,10 @@ function App() {
     socketRef.current = Socket("http://localhost:3000");
     const socket = socketRef.current;
 
+
     socket.on("welcome", (msg) => {
       console.log(msg);
+      setSocketId(socket.id);
     });
 
     socket.on("transfer-chat", (chat) => {
@@ -30,14 +34,12 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log({input, room})
 
-    if (input.trim()) {
-      console.log("sent message =>", input);
-      setMessages((prev) => [...prev, input]);
+    setMessages((prev) => [...prev, {input, room}]);
 
-      socketRef.current.emit("message", input);
-      setInput("");
-    }
+    socketRef.current.emit("message", input);
+    setInput("");
   };
 
   return (
@@ -51,6 +53,7 @@ function App() {
           <div className="flex-1 flex flex-col justify-between overflow-y-auto p-2">
             {/* Current received message display */}
             <div className="flex-1">
+              <p>Socket ID: {socketId}</p>
               <h1 className="text-center text-gray-600">Received: {chat}</h1>
             </div>
 
@@ -74,6 +77,13 @@ function App() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message..."
+            />
+            <input
+              className="w-full py-2 outline-none"
+              type="text"
+              value={room}
+              onChange={(e) => setRoom(e.target.value)}
+              placeholder="Type a room..."
             />
             <button
               className="bg-blue-500 text-white rounded px-4 py-2"

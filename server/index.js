@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
     console.log("Message received:", msg);
 
     // Send message back to sender (echo)
-    socket.emit("transfer-chat", msg);
+    socket.broadcast.emit("transfer-chat", msg);
   
   });
 
