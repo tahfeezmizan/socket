@@ -10,11 +10,12 @@ function App() {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef(null);
 
+  const roomId = "room123";
+
   useEffect(() => {
     // Create socket connection only once
     socketRef.current = Socket("http://localhost:3000");
     const socket = socketRef.current;
-
 
     socket.on("welcome", (msg) => {
       console.log(msg);
@@ -26,6 +27,10 @@ function App() {
       console.log("transfer-chat received:", chat);
     });
 
+    socket.emit("join-room", roomId, () => {
+      console.log("joined room successfully");
+    });
+
     // Cleanup function
     return () => {
       socket.disconnect();
@@ -34,9 +39,9 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({input, room})
+    console.log({ input, room });
 
-    setMessages((prev) => [...prev, {input, room}]);
+    setMessages((prev) => [...prev, { input, room }]);
 
     socketRef.current.emit("message", input);
     setInput("");

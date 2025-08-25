@@ -38,6 +38,15 @@ io.on("connection", (socket) => {
   
   });
 
+  // join room 
+  socket.on('join-room', (roomId) => {
+    socket.join(roomId);
+    console.log(`user joined room ${roomId}`)
+  })
+
+
+
+
   // Handle disconnection
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
